@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace AktobeInteractive
@@ -49,13 +50,57 @@ namespace AktobeInteractive
             };
             var point = new Border
             {
-                Background = brush,
-                Height = CellHeight,
-                Width = CellWidth,
+                Background = brush, Height = CellHeight, Width = CellWidth, Tag = "A",
             };
-            Grid.SetColumn(point, x);
-            Grid.SetRow(point, y);
-            MapGrid.Children.Add(point);
+            point.MouseDown += PointOnClick;
+            Canvas.SetLeft(point, CellWidth * 2);
+            Canvas.SetTop(point, CellHeight * 2);
+
+            var canvas = new Canvas {Name = "A", Width = CellWidth * 5, Height = CellHeight * 3};
+            for (var i = 0; i < 5; i++)
+            {
+                var button = new Border
+                    {Width = CellWidth, Height = CellHeight, Background = new SolidColorBrush(Colors.Black), CornerRadius = new CornerRadius(30)};
+                Canvas.SetLeft(button, CellWidth * 2);
+                Canvas.SetTop(button, CellHeight * 2);
+                canvas.Children.Add(button);
+            }
+
+            canvas.Children.Add(point);
+            Grid.SetColumn(canvas, x);
+            Grid.SetRow(canvas, y);
+            MapGrid.Children.Add(canvas);
+        }
+
+        private void PointOnClick(object sender, RoutedEventArgs e)
+        {
+            var parent = (sender as Border)?.Parent as Canvas;
+            double i = 0;
+            double j = CellHeight * 2;
+            if (parent != null)
+                foreach (Border button in parent.Children)
+                {
+                    if (i > CellWidth * 4) break;
+
+                    var leftAnimation = new DoubleAnimation
+                    {
+                        From = CellWidth * 2,
+                        To = i,
+                        Duration = TimeSpan.FromSeconds(1)
+                    };
+                    i += CellWidth;
+
+                    var topAnimation = new DoubleAnimation
+                    {
+                        From = CellHeight * 2,
+                        To = (j < 0 ? j*-1 : j),
+                        Duration = TimeSpan.FromSeconds(1)
+                    };
+                    j -= CellHeight;
+
+                    button.BeginAnimation(Canvas.LeftProperty, leftAnimation);
+                    button.BeginAnimation(Canvas.TopProperty, topAnimation);
+                }
         }
 
         private void MapGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
