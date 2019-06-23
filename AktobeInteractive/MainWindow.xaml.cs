@@ -14,6 +14,7 @@ namespace AktobeInteractive
         public MainWindow()
         {
             InitializeComponent();
+            SetCoordinates();
         }
 
         private void SetCoordinates()
@@ -22,8 +23,10 @@ namespace AktobeInteractive
             var height = MapGrid.ActualHeight / CellsCount;
             for (var i = 0; i < CellsCount; i++)
             {
-                var columnDefinition = new ColumnDefinition {Width = new GridLength(CellsCount, GridUnitType.Pixel)};
+                var columnDefinition = new ColumnDefinition {Width = new GridLength(width, GridUnitType.Pixel)};
                 MapGrid.ColumnDefinitions.Add(columnDefinition);
+                var rowDefinition = new RowDefinition {Height = new GridLength(height, GridUnitType.Pixel)};
+                MapGrid.RowDefinitions.Add(rowDefinition);
             }
         }
 
