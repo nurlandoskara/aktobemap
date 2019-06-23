@@ -4,25 +4,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" WindowState="Maximized" WindowStyle="ToolWindow"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Resources/bg.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="45*"/>
-            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="80*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="94*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="2" Grid.Row="1" x:Name="MapGrid" MouseDown="MapGrid_OnMouseDown">
             <Grid.Background>
-                <ImageBrush ImageSource="Resources/map.png"/>
+                <ImageBrush ImageSource="Resources/map.png" FrameworkElement.FlowDirection="RightToLeft"/>
             </Grid.Background>
 
         </Grid>
