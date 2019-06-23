@@ -56,7 +56,7 @@ namespace AktobeInteractive
             Canvas.SetLeft(point, CellWidth * 2);
             Canvas.SetTop(point, CellHeight * 2);
 
-            var canvas = new Canvas {Name = "A", Width = CellWidth * 5, Height = CellHeight * 3};
+            var canvas = new Canvas {Name = "A", Width = CellWidth * 5, Height = CellWidth * 3};
             for (var i = 0; i < 5; i++)
             {
                 var button = new Border
@@ -75,31 +75,31 @@ namespace AktobeInteractive
         private void PointOnClick(object sender, RoutedEventArgs e)
         {
             var parent = (sender as Border)?.Parent as Canvas;
-            double i = 0;
-            double j = CellHeight * 2;
+            double a = 0;
             if (parent != null)
                 foreach (Border button in parent.Children)
                 {
-                    if (i > CellWidth * 4) break;
-
+                    if (a > Math.PI) break;
+                    var radius = CellWidth * 2;
                     var leftAnimation = new DoubleAnimation
                     {
-                        From = CellWidth * 2,
-                        To = i,
+                        From = radius,
+                        To = radius - radius * Math.Cos(a),
                         Duration = TimeSpan.FromSeconds(1)
                     };
-                    i += CellWidth;
 
                     var topAnimation = new DoubleAnimation
                     {
-                        From = CellHeight * 2,
-                        To = (j < 0 ? j*-1 : j),
+                        From = radius,
+                        To = radius - radius * Math.Sin(a),
                         Duration = TimeSpan.FromSeconds(1)
                     };
-                    j -= CellHeight;
 
                     button.BeginAnimation(Canvas.LeftProperty, leftAnimation);
                     button.BeginAnimation(Canvas.TopProperty, topAnimation);
+
+                    a += Math.PI / 4;
+
                 }
         }
 
