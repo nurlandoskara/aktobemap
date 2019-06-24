@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -84,6 +85,7 @@ namespace AktobeInteractive
                 foreach (Border button in parent.Children)
                 {
                     if (a > Math.PI) break;
+                    button.Visibility = Visibility.Visible;
                     var radius = CellWidth + CellWidth / 2;
                     var leftAnimation = new DoubleAnimation
                     {
@@ -107,7 +109,7 @@ namespace AktobeInteractive
                 }
         }
 
-        private void MapGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
+        private async void MapGrid_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
 #if !DEBUG
             var pointToWindow = Mouse.GetPosition(this);
@@ -148,6 +150,7 @@ namespace AktobeInteractive
                     button.BeginAnimation(Canvas.LeftProperty, leftAnimation);
                     button.BeginAnimation(Canvas.TopProperty, topAnimation);
 
+                    button.Visibility = Visibility.Hidden;
                     a += Math.PI / 4;
                 }
             }
