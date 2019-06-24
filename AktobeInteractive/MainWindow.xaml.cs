@@ -13,6 +13,7 @@ namespace AktobeInteractive
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _isExpanding;
         private const int CellsCount = 20;
         private const int GridX0 = 25;
         private const int GridY0 = 1;
@@ -76,6 +77,7 @@ namespace AktobeInteractive
 
         private void PointOnClick(object sender, RoutedEventArgs e)
         {
+            _isExpanding = true;
             var parent = (sender as Border)?.Parent as Canvas;
             double a = 0;
             if (parent != null)
@@ -117,6 +119,40 @@ namespace AktobeInteractive
             var row = gridY / CellHeight;
             MessageBox.Show($"{(int) column}:{(int) row}");
 #endif
+            if (_isExpanding)
+            {
+                _isExpanding = false;
+                return;
+            }
+            foreach (Canvas canvas in MapGrid.Children)
+            {
+                double a = 0;
+                foreach (Border button in canvas.Children)
+                {
+                    if (a > Math.PI) break;
+                    var radius = CellWidth + CellWidth / 2;
+                    var leftAnimation = new DoubleAnimation
+                    {
+                        From = radius - radius * Math.Cos(a),
+                        To = radius,
+                        Duration = TimeSpan.FromSeconds(1)
+                    };
+
+                    var topAnimation = new DoubleAnimation
+                    {
+                        From = radius - radius * Math.Sin(a),
+                        To = radius,
+                        Duration = TimeSpan.FromSeconds(1)
+                    };
+
+                    button.BeginAnimation(Canvas.LeftProperty, leftAnimation);
+                    button.BeginAnimation(Canvas.TopProperty, topAnimation);
+
+                    a += Math.PI / 4;
+                }
+            }
+
+            _isExpanding = false;
         }
     }
 }
