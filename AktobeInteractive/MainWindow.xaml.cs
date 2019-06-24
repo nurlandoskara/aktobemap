@@ -42,6 +42,7 @@ namespace AktobeInteractive
 
         private void SetPoint(int x, int y)
         {
+            var canvas = new Canvas {Name = "A", Width = CellWidth * 5, Height = CellWidth * 2};
             var brush = new ImageBrush
             {
                 ImageSource = new BitmapImage(
@@ -50,19 +51,20 @@ namespace AktobeInteractive
             };
             var point = new Border
             {
-                Background = brush, Height = CellHeight, Width = CellWidth, Tag = "A",
+                Background = brush,
+                Height = CellWidth,
+                Width = CellWidth,
+                Tag = "A",
             };
             point.MouseDown += PointOnClick;
-            Canvas.SetLeft(point, CellWidth * 2);
-            Canvas.SetTop(point, CellHeight * 2);
-
-            var canvas = new Canvas {Name = "A", Width = CellWidth * 5, Height = CellWidth * 3};
+            Canvas.SetLeft(point, CellWidth + CellWidth / 2);
+            Canvas.SetTop(point, CellWidth * 2);
             for (var i = 0; i < 5; i++)
             {
                 var button = new Border
-                    {Width = CellWidth, Height = CellHeight, Background = new SolidColorBrush(Colors.Black), CornerRadius = new CornerRadius(30)};
-                Canvas.SetLeft(button, CellWidth * 2);
-                Canvas.SetTop(button, CellHeight * 2);
+                    {Width = CellWidth, Height = CellWidth, Background = new SolidColorBrush(Colors.Black), CornerRadius = new CornerRadius(30)};
+                Canvas.SetLeft(button, CellWidth + CellWidth / 2);
+                Canvas.SetTop(button, CellWidth * 2);
                 canvas.Children.Add(button);
             }
 
@@ -80,7 +82,7 @@ namespace AktobeInteractive
                 foreach (Border button in parent.Children)
                 {
                     if (a > Math.PI) break;
-                    var radius = CellWidth * 2;
+                    var radius = CellWidth + CellWidth / 2;
                     var leftAnimation = new DoubleAnimation
                     {
                         From = radius,
